@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use App\Helper;
 
 class WebhookController extends Controller
 {
@@ -34,6 +35,8 @@ class WebhookController extends Controller
                 $message = $payloadData['message'] ?? '';
                 $attachmentUrl = $payloadData['attachment'] ?? null;
                 $timestamp = $payloadData['timestamp'] ?? time();
+
+                $phone = Helper::normalizePhone($phone);
 
                 if (!$phone) {
                     Piwapi::sendText($phone, "*NOMOR ANDA TIDAK TERDAFTAR*");
