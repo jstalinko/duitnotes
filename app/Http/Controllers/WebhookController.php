@@ -36,12 +36,15 @@ class WebhookController extends Controller
                 $timestamp = $payloadData['timestamp'] ?? time();
 
                 if (!$phone) {
+                    Piwapi::sendText($phone, "*NOMOR ANDA TIDAK TERDAFTAR*");
+
                     return response()->json(['status' => 'error', 'message' => 'Phone missing'], 400);
                 }
 
                 // 1. Find user by phone
                 $user = User::where('phone', $phone)->first();
                 if (!$user) {
+                    Piwapi::sendText($phone, "*NOMOR ANDA BELUM TERDAFTAR*");
                     return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
                 }
 
