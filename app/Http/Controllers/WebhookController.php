@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Piwapi;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Http\Services\TxDetectionService;
@@ -98,6 +99,13 @@ class WebhookController extends Controller
                     'image' => $publicImagePath,
                     'status' => 'pending',
                 ]);
+
+                Piwapi::sendText($user->phone, "* TRANSAKSI TERDETEKSI *
+* TIPE :* {$type}
+* JUMLAH :* {$amount}
+* DESKRIPSI :* {$description}
+* STATUS :* pending
+Silahkan konfirmasi atau tolak transaksi dengan balas 'ya' atau 'tolak' di chat ini.");
 
                 return response()->json([
                     'status' => 'success',
