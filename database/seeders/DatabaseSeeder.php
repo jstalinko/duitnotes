@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Administrator',
             'email' => 'admin@duitnotes.com',
+            'phone' => '6287857580910',
             'password' => bcrypt('password'),
         ]);
     }
