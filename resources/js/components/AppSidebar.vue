@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, ArrowLeftRight, Tag, FileText, Settings } from 'lucide-vue-next';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
@@ -23,17 +23,37 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Duit Notes',
+        href: '',
+        icon: ArrowLeftRight,
+    },
+    {
+        title: 'Kategori',
+        href: '',
+        icon: Tag,
+    },
+    {
+        title: 'Laporan',
+        href: '',
+        icon: FileText,
+    },
+    {
+        title: 'Pengaturan',
+        href: '',
+        icon: Settings,
+    }
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
+        title: 'Bantuan?',
+        href: 'https://javara.digita/whatsapp',
         icon: Folder,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
+        title: 'Tutorial',
+        href: 'https://youtube.com/javaradigital',
         icon: BookOpen,
     },
 ];
