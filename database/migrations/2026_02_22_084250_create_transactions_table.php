@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->integer('category_id')->nullable();
             $table->string('phone');
-            $table->decimal('amount'); // for money
+            $table->integer('amount'); // for money
             $table->text('description')->nullable();
             $table->enum('type', ['in', 'out']);
             $table->string('image')->nullable();
             $table->string('reference')->nullable();
-            $table->string('status')->default('success');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
