@@ -60,7 +60,7 @@ class TxDetectionService
             $pattern = '/\b' . preg_quote($keyword, '/') . '\b/i';
             if (preg_match($pattern, $text)) {
                 $type = 'in';
-                $text = preg_replace($pattern, '', $text, 1);
+                // Stop searching once type is found, keep keyword in text for description
                 break;
             }
         }
@@ -70,7 +70,7 @@ class TxDetectionService
                 $pattern = '/\b' . preg_quote($keyword, '/') . '\b/i';
                 if (preg_match($pattern, $text)) {
                     $type = 'out';
-                    $text = preg_replace($pattern, '', $text, 1);
+                    // Stop searching once type is found, keep keyword in text for description
                     break;
                 }
             }
@@ -161,14 +161,19 @@ class TxDetectionService
         // Set fallback description if string is empty
         if (empty($description)) {
             $description = $type === 'in' ? 'Pemasukan' : 'Pengeluaran';
+            $category = $description;
         } else {
             // Capitalize first letter of description
             $description = ucfirst($description);
+            // Extract category as the first two words of the description
+            $words = explode(' ', $description);
+            $category = implode(' ', array_slice($words, 0, 2));
         }
 
         return [
             'type' => $type,
             'description' => $description,
+            'category' => strtolower($category),
             'amount' => $amount,
         ];
     }

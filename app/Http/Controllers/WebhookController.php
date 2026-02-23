@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Facades\Piwapi;
 use App\Models\User;
 use App\Models\Transaction;
+use App\Models\Category;
 use App\Http\Services\TxDetectionService;
 use App\Http\Services\TxImageDetectService;
 use Illuminate\Http\Request;
@@ -90,14 +91,22 @@ class WebhookController extends Controller
                 $type = $detectedData['type'] ?? 'out';
                 $amount = $detectedData['amount'] ?? 0;
                 $description = $detectedData['description'] ?? rtrim(mb_strimwidth($message, 0, 100, "..."));
+                $categoryName = $detectedData['category'] ?? null;
 
                 if (empty($description)) {
                     $description = "Transaksi Baru";
                 }
 
+                $categoryId = null;
+                if ($categoryName) {
+                    $category = Category::firstOrCreate(['name' => $categoryName]);
+                    $categoryId = $category->id;
+                }
+
                 // 5. Save to database as pending
                 $transaction = Transaction::create([
                     'user_id' => $user->id,
+                    'category_id' => $categoryId,
                     'phone' => $phone,
                     'amount' => $amount,
                     'description' => $description,

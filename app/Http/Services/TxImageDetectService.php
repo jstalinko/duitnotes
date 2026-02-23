@@ -36,7 +36,8 @@ class TxImageDetectService
                 "- type: 'in' if it is money received/incoming, 'out' if it is money spent/outgoing.\n" .
                 "- amount: the total amount or grand total as a pure number (no currency symbols or separators, just float, e.g., 50000).\n" .
                 "- description: a very short description of the transaction (e.g., 'Makan siang', 'Transfer dari Budi', 'Belanja bulanan') max 50 characters.\n" .
-                "Return ONLY a valid JSON object without any markdown formatting. The JSON keys MUST be exactly: type, amount, description.";
+                "- category: a short label for the transaction category, max 2 words (e.g., 'makanan', 'transfer', 'belanja bulanan').\n" .
+                "Return ONLY a valid JSON object without any markdown formatting. The JSON keys MUST be exactly: type, amount, description, category.";
 
             // Call Google Gemini API
             $response = \Illuminate\Support\Facades\Http::withHeaders([
@@ -79,6 +80,7 @@ class TxImageDetectService
                         'type' => in_array($parsed['type'], ['in', 'out']) ? $parsed['type'] : 'out',
                         'amount' => (float) $parsed['amount'],
                         'description' => ucfirst($parsed['description']),
+                        'category' => strtolower($parsed['category'] ?? explode(' ', $parsed['description'])[0]),
                     ];
                 } else {
                     \Illuminate\Support\Facades\Log::warning("TxImageDetectService: Failed to parse Gemini output or missing keys.", [

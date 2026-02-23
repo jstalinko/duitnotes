@@ -15,22 +15,22 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import AppLogo from './AppLogo.vue';
-import { dashboard } from '@/routes';
+import dashboard from '@/routes/dashboard';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboard.index(),
         icon: LayoutGrid,
     },
     {
         title: 'Duit Notes',
-        href: '',
+        href: dashboard.duitNotes(),
         icon: ArrowLeftRight,
     },
     {
         title: 'Kategori',
-        href: '',
+        href: '/dashboard/category',
         icon: Tag,
     },
     {
@@ -65,7 +65,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link :href="dashboard.index()">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
